@@ -32,6 +32,39 @@ typedef unsigned long long int  ull;
 int max_no=INT_MAX;
 int min_no=INT_MIN;
 
+ll binary_exp(ll base,ll pow){
+    if(pow==1){
+        return base;
+    }
+    if(pow%2){
+        ll b=base*base;
+        pow=(pow-1)/2;
+        base = base*(binary_exp(b,pow));
+    }else{
+        ll b=base*base;
+        pow=pow/2;
+        base=binary_exp(b,pow);
+    }
+    return base;
+}
+
 void solve(){
-    
+    ll n;
+    cin>>n;
+    ll ans=0;
+    ll pow=1;
+    ll t= binary_exp(5,pow);
+    while((n/t)>0){
+        ans+=(n/t);
+        pow+=1;
+        t=binary_exp(5,pow);
+    }
+    cout<<ans<<'\n';
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    solve();
 }

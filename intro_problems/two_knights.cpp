@@ -33,5 +33,19 @@ int max_no=INT_MAX;
 int min_no=INT_MIN;
 
 void solve(){
-    
+    int n;
+    cin>>n;
+    cout<<0<<'\n';
+    for(ll i=2;i<=n;i++){
+        ll ans=((i*i)*(i*i-1))/2;
+        ans-=4*(i-1)*(i-2);
+        cout<<ans<<'\n';
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    solve();
 }

@@ -33,5 +33,25 @@ int max_no=INT_MAX;
 int min_no=INT_MIN;
 
 void solve(){
-    
+    int n;
+    cin>>n;
+    ll ans=1;
+    ll a=2;
+    ll pow=n;
+    while(pow>0){
+        if(pow&1){
+            ans=((ans%MOD)*(a%MOD))%MOD;
+        }
+        a=(a*a)%MOD;
+        pow=pow>>1;
+    }
+    cout<<(ans%MOD)<<'\n';
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    solve();
 }

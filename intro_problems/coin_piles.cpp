@@ -33,5 +33,28 @@ int max_no=INT_MAX;
 int min_no=INT_MIN;
 
 void solve(){
-    
+    int t;
+    cin>>t;
+    while(t--){
+        ll a,b;
+        cin>>a>>b;
+        
+        if(abs(a-b)>min(a,b)){
+            cout<<"NO"<<'\n';
+            continue;
+        }
+        ll sum=a+b;
+        if((a%3==0 && b%3==0) || (sum%3==0)){
+            cout<<"YES"<<'\n';
+        }else{
+            cout<<"NO"<<'\n';
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    solve();
 }
