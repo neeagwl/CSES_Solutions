@@ -34,9 +34,6 @@ typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
 int mpow(int base, int exp); 
-void prime_sieve(ll n, ll p[]);
-bool is_prime(ll i,ll n);
-
 
 int max_no=INT_MAX;
 int min_no=INT_MIN;
@@ -44,7 +41,38 @@ int min_no=INT_MIN;
 
 
 void solve() {
-
+  int n;
+  si(n);
+  bool sieve[n+2];
+  int i;
+  fo(i,n+2){
+      if(i%2){
+          sieve[i]=true;
+      }else{
+          sieve[i]=false;
+      }
+  }
+  sieve[2]=true;
+  for(int i=2;i*i<=(n+1);i++){
+      if(sieve[i]){
+          for(int j=i*i;j<=n+1;j+=i){
+              sieve[j]=false;
+          }
+      }
+  }
+  if(n>2){
+      cout<<2<<'\n';
+  }else{
+      cout<<1<<'\n';
+  }
+  for(int i=2;i<=n+1;i++){
+      if(sieve[i]){
+          cout<<1<<" ";
+      }else{
+          cout<<2<<" ";
+      }
+  }
+  cout<<'\n';
 }
 
 int main() {
@@ -69,26 +97,4 @@ int mpow(int base, int exp) {
     exp >>= 1;
   }
   return result;
-}
-
-void prime_sieve(ll n, ll p[]){
-    //all even not prime
-   for(ll i=3;i<=n;i+=2){
-      p[i]=1;
-   }
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
-        }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
-}
-
-bool is_prime(ll i, ll n){
-    ll p[n+1];
-    prime_sieve(n,p);
-    return p[i];
 }

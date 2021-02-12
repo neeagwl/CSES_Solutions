@@ -2,8 +2,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define gc getchar_unlocked
-#define fo(i,n) for(i=0;i<n;i++)
-#define Fo(i,k,n) for(i=k;k<n?i<n:i>n;k<n?i+=1:i-=1)
 #define ll long long
 #define si(x)	scanf("%d",&x)
 #define sl(x)	scanf("%lld",&x)
@@ -18,7 +16,6 @@ using namespace std;
 #define all(x) x.begin(), x.end()
 #define mem(x) memset(x, 0, sizeof(x))
 #define sortall(x) sort(all(x))
-#define tr(it, a) for(auto it = a.begin(); it != a.end(); it++)
 #define PI 3.1415926535897932384626
 #define INF (int)1e9
 #define EPS 1e-9
@@ -41,10 +38,19 @@ bool is_prime(ll i,ll n);
 int max_no=INT_MAX;
 int min_no=INT_MIN;
 //=======================
+int nCk(int n,int k){
+    double res=1;
+    for (int i = 1; i <= k; ++i){
+        res = res * (n - k + i) / i;
+    }
+    return (int)(res + 0.01);
+}
 
-
-void solve() {
-
+int solve() {
+    int n,k;
+    si(n);
+    si(k);
+    pi(nCk(n,k));
 }
 
 int main() {

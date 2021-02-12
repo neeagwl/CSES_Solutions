@@ -1,9 +1,6 @@
 #include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
-#define gc getchar_unlocked
-#define fo(i,n) for(i=0;i<n;i++)
-#define Fo(i,k,n) for(i=k;k<n?i<n:i>n;k<n?i+=1:i-=1)
 #define ll long long
 #define si(x)	scanf("%d",&x)
 #define sl(x)	scanf("%lld",&x)
@@ -42,8 +39,31 @@ int max_no=INT_MAX;
 int min_no=INT_MIN;
 //=======================
 
+ll xoredSubarrays(int n,int k,ll a[]){
+    ll cnt=0;
+    ll xr=0;
+    unordered_map<int,ll> m;
+    for(int i=0;i<n;i++){
+        xr^=a[i];
+        if(xr==k) cnt++;
+        ll y=xr^k;
+        if(m.find(y)!=m.end()) cnt+=m[y];
+        m[y]++;
+    }
+    return cnt;
+}
+
 
 void solve() {
+    int n;
+    cin>>n;
+    ll a[n];
+    for(int i=0;i<n;i++){
+        ll num;
+        cin>>num;
+        a[i]=(num&1);
+    }
+    cout<<xoredSubarrays(n,0,a)<<'\n';
 
 }
 

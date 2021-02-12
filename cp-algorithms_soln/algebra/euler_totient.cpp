@@ -2,7 +2,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define gc getchar_unlocked
-#define fo(i,n) for(i=0;i<n;i++)
+#define fo(i,n) for(int j=i;j<n;j++)
 #define Fo(i,k,n) for(i=k;k<n?i<n:i>n;k<n?i+=1:i-=1)
 #define ll long long
 #define si(x)	scanf("%d",&x)
@@ -42,9 +42,25 @@ int max_no=INT_MAX;
 int min_no=INT_MIN;
 //=======================
 
-
+//find no of integers upto i which are coprime to i.
 void solve() {
-
+    vi phi;
+    phi.pb(0);
+    int n;
+    si(n);
+    int i;
+    fo(i,n+1) phi[i]=i;
+    fo(2,n+1){
+        if(phi[i]==i){
+            phi[i]=i-1;
+            for(int j=2*i;j<=n;j+=i){
+                phi[j]=(phi[j]*(i-1))/i;
+            }
+        }
+    }
+    for(auto num:phi){
+        cout<<num<<" ";
+    }
 }
 
 int main() {
