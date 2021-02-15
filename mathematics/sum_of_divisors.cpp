@@ -33,7 +33,7 @@ typedef vector<pl>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
-int power(int base, int exp); 
+int mpow(int base, int exp); 
 void prime_sieve(ll n, ll p[]);
 bool is_prime(ll i,ll n);
 
@@ -43,8 +43,57 @@ int min_no=INT_MIN;
 //=======================
 
 
-void solve() {
+ll power(ll x, ll y, ll p)
+{
+	
+	ll res = 1;
+	x = x % p;
+	while (y > 0)
+	{
+		if (y & 1)
+			res = (res * x) % p;
+		y = y >> 1;
+		x = (x * x) % p;
+	}
+	return (res + p) % p;
+}
 
+// Assumption: m is prime
+ll modinv(ll x)
+{
+	return power(x, mod - 2, mod);
+}
+
+// Function to calculate sum from 1 to n
+ll sum(ll n)
+{
+	// sum 1 to n = (n*(n+1))/2
+	ll retval = ((((n % mod) * ((n + 1) %
+		mod)) % mod) * modinv(2)) % mod;
+	return retval;
+}
+
+
+void solve() {
+    ll n;
+    sl(n);
+    ll l = 1;
+	ll ans = 0;
+
+	while (l <= n)
+	{
+		ll k = n / l;
+		ll r = n / k;
+		k %= mod;
+		
+		// For i=l to i=r
+		ans += ((sum(r) - sum(l - 1) %
+						mod) * k) % mod;
+		ans %= mod;
+		l = r + 1;
+	}
+	ans = ans % mod;
+	cout<<ans<<'\n';
 }
 
 int main() {
@@ -60,14 +109,15 @@ int main() {
     return 0;
 }
 
-int power(int x,int y){
-    int res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
+int mpow(int base, int exp) {
+  base %= mod;
+  int result = 1;
+  while (exp > 0) {
+    if (exp & 1) result = ((ll)result * base) % mod;
+    base = ((ll)base * base) % mod;
+    exp >>= 1;
+  }
+  return result;
 }
 
 void prime_sieve(ll n, ll p[]){

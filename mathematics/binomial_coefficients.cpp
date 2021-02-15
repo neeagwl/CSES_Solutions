@@ -33,7 +33,7 @@ typedef vector<pl>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
-int power(int base, int exp); 
+ll power(ll base, ll exp); 
 void prime_sieve(ll n, ll p[]);
 bool is_prime(ll i,ll n);
 
@@ -44,7 +44,24 @@ int min_no=INT_MIN;
 
 
 void solve() {
-
+    int n;
+    si(n);
+    ll num=1000000;
+    ll fact[num];
+    fact[0]=fact[1]=1;
+    fact[2]=2;
+    for(ll i=3;i<=num;i++){
+        fact[i]=(fact[i-1]*i)%mod;
+    }
+    while(n--){
+        ll a,b;
+        sl(a);
+        sl(b);
+        ll ans=fact[a];
+        ans=(ans*power(fact[b],1000000005))%mod;
+        ans=(ans*power(fact[a-b],1000000005))%mod;
+        cout<<ans%mod<<'\n';
+    }
 }
 
 int main() {
@@ -52,7 +69,7 @@ int main() {
     srand(chrono::high_resolution_clock::now().time_since_epoch().count());
 
     int t = 1;
-    // cin >> t;
+    // si(t);
     while(t--) {
       solve();
     }
@@ -60,8 +77,8 @@ int main() {
     return 0;
 }
 
-int power(int x,int y){
-    int res=1; 
+ll power(ll x,ll y){
+    ll res=1; 
     while(y){
         if(y&1) res = (res*x)%mod; 
         y>>=1; 

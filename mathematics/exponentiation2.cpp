@@ -22,7 +22,7 @@ using namespace std;
 #define PI 3.1415926535897932384626
 #define INF (int)1e9
 #define EPS 1e-9
-#define mod 1000000007
+#define MOD 1000000007
 
 typedef pair<int, int>	pii;
 typedef pair<ll, ll>	pl;
@@ -33,7 +33,7 @@ typedef vector<pl>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
-int power(int base, int exp); 
+int mpow(int base, int exp); 
 void prime_sieve(ll n, ll p[]);
 bool is_prime(ll i,ll n);
 
@@ -42,9 +42,27 @@ int max_no=INT_MAX;
 int min_no=INT_MIN;
 //=======================
 
+ll power(ll a,ll b){
+    if(b==1) return a%MOD;
+    if(b==0) return 1;
+    ll res=1;
+    while(b){
+        if(b&1) res=((res%MOD)*(a%MOD))%MOD;
+        b=b>>1;
+        a=((a%MOD)*(a%MOD))%MOD;
+    }
+    return res;
+}
+
 
 void solve() {
-
+    ll a,b,c;
+    cin>>a>>b>>c;
+    b%=MOD;
+    ll p=power(b,c);
+    p%=MOD;
+    ll ans=power(a,p);
+    cout<<(ans%MOD)<<'\n';
 }
 
 int main() {
@@ -52,7 +70,7 @@ int main() {
     srand(chrono::high_resolution_clock::now().time_since_epoch().count());
 
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--) {
       solve();
     }
@@ -60,14 +78,15 @@ int main() {
     return 0;
 }
 
-int power(int x,int y){
-    int res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
+int mpow(int base, int exp) {
+  base %= MOD;
+  int result = 1;
+  while (exp > 0) {
+    if (exp & 1) result = ((ll)result * base) % MOD;
+    base = ((ll)base * base) % MOD;
+    exp >>= 1;
+  }
+  return result;
 }
 
 void prime_sieve(ll n, ll p[]){

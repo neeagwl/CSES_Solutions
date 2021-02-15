@@ -22,7 +22,7 @@ using namespace std;
 #define PI 3.1415926535897932384626
 #define INF (int)1e9
 #define EPS 1e-9
-#define mod 1000000007
+#define MOD 1000000007
 
 typedef pair<int, int>	pii;
 typedef pair<ll, ll>	pl;
@@ -33,7 +33,7 @@ typedef vector<pl>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
-int power(int base, int exp); 
+int mpow(int base, int exp); 
 void prime_sieve(ll n, ll p[]);
 bool is_prime(ll i,ll n);
 
@@ -44,7 +44,23 @@ int min_no=INT_MIN;
 
 
 void solve() {
-
+    vector<int> v;
+    int num=1000000;
+    for(int i=0;i<=num;i++){
+        v.push_back(1);
+    }
+    for(int i=2;i<=num;i++){
+        for(int j=i;j<=num;j+=i){
+            v[j]++;
+        }
+    }
+    int n;
+    si(n);
+    while(n--){
+        int x;
+        si(x);
+        cout<<v[x]<<'\n';
+    }
 }
 
 int main() {
@@ -60,14 +76,15 @@ int main() {
     return 0;
 }
 
-int power(int x,int y){
-    int res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
+int mpow(int base, int exp) {
+  base %= MOD;
+  int result = 1;
+  while (exp > 0) {
+    if (exp & 1) result = ((ll)result * base) % MOD;
+    base = ((ll)base * base) % MOD;
+    exp >>= 1;
+  }
+  return result;
 }
 
 void prime_sieve(ll n, ll p[]){

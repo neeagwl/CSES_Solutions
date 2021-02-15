@@ -22,7 +22,7 @@ using namespace std;
 #define PI 3.1415926535897932384626
 #define INF (int)1e9
 #define EPS 1e-9
-#define mod 1000000007
+#define MOD 1000000007
 
 typedef pair<int, int>	pii;
 typedef pair<ll, ll>	pl;
@@ -33,7 +33,7 @@ typedef vector<pl>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
-int power(int base, int exp); 
+int mpow(int base, int exp); 
 void prime_sieve(ll n, ll p[]);
 bool is_prime(ll i,ll n);
 
@@ -44,6 +44,33 @@ int min_no=INT_MIN;
 
 
 void solve() {
+    int n;
+    si(n);
+    int a[n];
+    int high=0;
+    for(int i=0;i<n;i++){
+        si(a[i]);
+        high=max(high,a[i]);
+    }
+    int div[high+1]={0};
+
+    //counting divsors of every number
+    for(int i=0;i<n;i++){
+        div[a[i]]++;
+        div[1]++;
+        for(int j=2;j*j<=a[i];j++){
+            if(a[i]%j==0){
+                div[j]++;
+                if(a[i]/j!=j) div[(a[i]/j)]++;
+            }
+        }
+    }
+    for(int i=high;i>=1;i--){
+        if(div[i]>1){
+            cout<<i<<'\n';
+            break;
+        }
+    }
 
 }
 
@@ -60,14 +87,15 @@ int main() {
     return 0;
 }
 
-int power(int x,int y){
-    int res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
+int mpow(int base, int exp) {
+  base %= MOD;
+  int result = 1;
+  while (exp > 0) {
+    if (exp & 1) result = ((ll)result * base) % MOD;
+    base = ((ll)base * base) % MOD;
+    exp >>= 1;
+  }
+  return result;
 }
 
 void prime_sieve(ll n, ll p[]){
