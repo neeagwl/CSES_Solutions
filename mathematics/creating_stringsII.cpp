@@ -46,24 +46,44 @@ ll power(ll x,ll y){
     return res;
 }
 
-ll sum_divisors(ll n){
-  ll res=1;
-  for(ll i=2;i*i<=n;i++){
-    ll cnt=0;
-    while(n%i==0){
-      cnt++;
-      n/=i;
-    }
-    ll x=((power(i,cnt+1)-1)/(i-1))%mod;
-    res*=x;
-    res%=mod;
-  }
-  if(n>=2){
-    res*=((1+n)%mod);
-    res%=mod;
-  }
-  return res;
+
+ll inverse(ll i){
+    if(i==1) return 1;
+    return (power(i,mod-2))%mod;
 }
+
+void prime_sieve(ll n, ll p[]){
+    //all even not prime
+   for(ll i=3;i<=n;i+=2){
+      p[i]=1;
+   }
+   for(ll i=3;(i*i)<=n;i+=2){
+     if(p[i]==1){
+        for(ll j=i*i;j<n;j=j+i){
+            p[j]=0;
+        }
+     }
+   }
+   p[2]=1;
+   p[1]=p[0]=0;
+}
+
+
+ll binCoeff(int n, int k) 
+{ 
+    ll res = 1; 
+    // Since C(n, k) = C(n, n-k) 
+    if (k > n - k) 
+        k = n - k; 
+    // Calculate value of [n*(n-1)*---*(n-k+1)] / [k*(k-1)*---*1] 
+    for (int i = 0; i < k; ++i) { 
+        res *= (n - i); 
+        res%=mod;
+        res /= (i + 1); 
+    } 
+    return res%mod; 
+} 
+
 
 int main()
 {
@@ -72,7 +92,32 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
-    ll n;
-    sl(n);
-    cout<<sum_divisors(n)<<'\n';
+    string s;
+    cin>>s;
+
+    ll n= s.length();
+
+    ll fact[n+1]={0};
+
+    fact[0]=fact[1]=1;
+    for(ll i=2;i<=n;i++){
+        fact[i]=(fact[i-1]*i)%mod;
+    }
+
+    ll ans=fact[n];
+
+    ll freq[26]={0};
+    for(ll i=0;i<n;i++){
+        freq[s[i]-'a']++;
+    }
+
+    for(ll i=0;i<26;i++){
+        ll p=freq[i];
+        if(p>1){
+            ans*=inverse(fact[p]);
+            ans%=mod;
+        }
+    }
+
+    cout<<ans<<'\n';
 }

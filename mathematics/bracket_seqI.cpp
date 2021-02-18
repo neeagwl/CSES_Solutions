@@ -46,23 +46,42 @@ ll power(ll x,ll y){
     return res;
 }
 
-ll sum_divisors(ll n){
-  ll res=1;
-  for(ll i=2;i*i<=n;i++){
-    ll cnt=0;
-    while(n%i==0){
-      cnt++;
-      n/=i;
+ll inverse(ll i){
+    if(i==1) return 1;
+    return (power(i,mod-2))%mod;
+}
+
+
+void prime_sieve(ll n, ll p[]){
+    //all even not prime
+   for(ll i=3;i<=n;i+=2){
+      p[i]=1;
+   }
+   for(ll i=3;(i*i)<=n;i+=2){
+     if(p[i]==1){
+        for(ll j=i*i;j<n;j=j+i){
+            p[j]=0;
+        }
+     }
+   }
+   p[2]=1;
+   p[1]=p[0]=0;
+}
+
+ll catlan(ll n){
+
+    ll fact[2*n+1]={0};
+    fact[0]=fact[1]=1;
+    for(ll i=2;i<=2*n;i++){
+        fact[i]=(fact[i-1]*i)%mod;
     }
-    ll x=((power(i,cnt+1)-1)/(i-1))%mod;
-    res*=x;
-    res%=mod;
-  }
-  if(n>=2){
-    res*=((1+n)%mod);
-    res%=mod;
-  }
-  return res;
+    ll ans=fact[2*n];
+    ans*=inverse(fact[n]);
+    ans%=mod;
+    ans*=inverse(fact[n]);
+    ans%=mod;
+    return ans/(n+1);
+
 }
 
 int main()
@@ -73,6 +92,9 @@ int main()
     
     //WRITE THE CODE HERE
     ll n;
-    sl(n);
-    cout<<sum_divisors(n)<<'\n';
+    cin>>n;
+
+    if(n%2) cout<<0<<'\n';
+
+    else cout<<catlan(n/2)<<'\n';
 }

@@ -1,7 +1,9 @@
+#include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
 #define gc getchar_unlocked
 #define fo(i,n) for(i=0;i<n;i++)
+#define Fo(i,k,n) for(i=k;k<n?i<n:i>n;k<n?i+=1:i-=1)
 #define ll long long
 #define si(x)	scanf("%d",&x)
 #define sl(x)	scanf("%lld",&x)
@@ -30,14 +32,47 @@ typedef vector<pii>		vpii;
 typedef vector<pl>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
-typedef unordered_map<int,int> umii;
-typedef map<int,int> mii;
-typedef unordered_set<int> usi;
-typedef set<int> seti;
+
+int power(int base, int exp); 
+void prime_sieve(ll n, ll p[]);
+bool is_prime(ll i,ll n);
+
+
+int max_no=INT_MAX;
+int min_no=INT_MIN;
 //=======================
 
-ll power(ll x,ll y){
-    ll res=1; 
+ll gifts(ll n){
+    ll dp[n+1]={0};
+    dp[1]=0;
+    dp[2]=1;
+    for(ll i=3;i<=n;i++){
+        dp[i]=((i-1)%mod*((dp[i-1]+dp[i-2])%mod))%mod;
+    }
+    return dp[n];
+}
+
+void solve() {
+    ll n;
+    sl(n);
+    cout<<gifts(n)<<'\n';
+}
+
+int main() {
+    ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    srand(chrono::high_resolution_clock::now().time_since_epoch().count());
+
+    int t = 1;
+    // cin >> t;
+    while(t--) {
+      solve();
+    }
+
+    return 0;
+}
+
+int power(int x,int y){
+    int res=1; 
     while(y){
         if(y&1) res = (res*x)%mod; 
         y>>=1; 
@@ -45,12 +80,6 @@ ll power(ll x,ll y){
     }
     return res;
 }
-
-ll inverse(ll i){
-    if(i==1) return 1;
-    return (power(i,mod-2))%mod;
-}
-
 
 void prime_sieve(ll n, ll p[]){
     //all even not prime
@@ -68,12 +97,8 @@ void prime_sieve(ll n, ll p[]){
    p[1]=p[0]=0;
 }
 
-int main()
-{
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    
-    //WRITE THE CODE HERE
-
+bool is_prime(ll i, ll n){
+    ll p[n+1];
+    prime_sieve(n,p);
+    return p[i];
 }

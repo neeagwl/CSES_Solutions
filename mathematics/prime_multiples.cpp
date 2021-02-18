@@ -9,8 +9,7 @@ void filter(ll a[],ll n,vec& v,ll num){
     ll ans=1;
     int cnt=0;
     while(n>0){
-        ll last_bit=(n&1);
-        if(last_bit==1){
+        if(n&1){
             cnt++;
             ans*=a[j];
             if(ans>num){
