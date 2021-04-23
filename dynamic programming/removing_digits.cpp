@@ -35,40 +35,35 @@ typedef map<int,int> mii;
 typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
-
-ll power(ll x,ll y){
-    ll res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
-}
-
-ll inverse(ll i){
-    if(i==1) return 1;
-    return (power(i,mod-2))%mod;
-}
+int dp[1000001];
 
 
-void prime_sieve(ll n, ll p[]){
+int solve(int n, string s){
 
-    //all even not prime
-   for(ll i=2;i<=n;i+=2){
-      p[i]=1;
-   }
-   
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
+    //base case
+    if(n==0) return 0;
+
+    if(s.length()==1) return 1;
+
+    //mem case
+    if(dp[n]!=-1) return dp[n];
+
+    //rec acse
+    int ans = INT_MAX;
+    for(int i=0; i<s.length(); i++){
+
+        int x = s[i]-'0';
+        if(x>0){
+            ans = min( ans, solve(n-x, to_string(n-x)) +1 ) ;
         }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
+
+    }
+
+    dp[n]= ans;
+    return ans;
+
 }
+
 
 int main()
 {
@@ -77,6 +72,10 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
+    int n;
+    cin>>n;
+
+    memset(dp, -1, sizeof(dp));
+    cout<<solve(n, to_string(n))<<'\n';
 
 }
-

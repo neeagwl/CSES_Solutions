@@ -35,39 +35,34 @@ typedef map<int,int> mii;
 typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
+int price[1001], pages[1001];
 
-ll power(ll x,ll y){
-    ll res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
-}
+int solve(int n, int x){
 
-ll inverse(ll i){
-    if(i==1) return 1;
-    return (power(i,mod-2))%mod;
-}
+    int dp[n+1][x+1];
 
+    for(int i=0; i<=n; i++ ) dp[i][0]=0;
 
-void prime_sieve(ll n, ll p[]){
+    for(int j=0; j<=x; j++) dp[0][j]=0;
 
-    //all even not prime
-   for(ll i=2;i<=n;i+=2){
-      p[i]=1;
-   }
-   
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=x; j++){
+
+            if(price[i-1]<=j){
+
+                dp[i][j] = max(pages[i-1] + dp[i-1][j-price[i-1]], dp[i-1][j]); 
+
+            }else{
+
+                dp[i][j] = dp[i-1][j];
+
+            }
+
         }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
+    }
+
+    return dp[n][x];
+
 }
 
 int main()
@@ -77,6 +72,14 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
+    int n, x;
+    cin>>n>>x;
+
+    for(int i=0; i<n; i++) cin>>price[i];
+
+    for(int j=0; j<n; j++) cin>>pages[j];
+
+    cout<<solve(n, x)<<'\n';
 
 }
 

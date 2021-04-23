@@ -35,40 +35,37 @@ typedef map<int,int> mii;
 typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
-
-ll power(ll x,ll y){
-    ll res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
-}
-
-ll inverse(ll i){
-    if(i==1) return 1;
-    return (power(i,mod-2))%mod;
-}
+int dp[1001][1001];
 
 
-void prime_sieve(ll n, ll p[]){
+int solve(int n){
 
-    //all even not prime
-   for(ll i=2;i<=n;i+=2){
-      p[i]=1;
-   }
-   
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
+    //base case
+
+    for(int i=0; i<n && dp[i][0]!=-1; i++) dp[i][0] = 1;
+
+    for(int j=0; j<n && dp[0][j]!=-1; j++) dp[0][j]=1;
+
+    for(int i=1; i<n; i++){
+        for(int j=1; j<n; j++){
+
+            if(dp[i][j]!=-1){
+
+                if(dp[i-1][j]!=-1) dp[i][j] += dp[i-1][j];
+                dp[i][j] %= mod;
+
+                if(dp[i][j-1]!=-1) dp[i][j] += dp[i][j-1];
+                dp[i][j] %= mod; 
+
+            }
+
         }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
+    }
+    
+    return dp[n-1][n-1];
+
 }
+
 
 int main()
 {
@@ -77,6 +74,24 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
+    int n;
+    cin>>n;
+
+    memset(dp, -1, sizeof(dp));
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+
+            char ch;
+            cin>>ch;
+            if(ch=='.'){
+                dp[i][j]=0;
+            }
+
+        }
+    }
+
+    if(dp[n-1][n-1]==-1 || dp[0][0]==-1)    cout<<0<<'\n';
+
+    else  cout<<solve(n)<<'\n';
 
 }
-

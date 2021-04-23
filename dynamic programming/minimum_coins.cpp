@@ -36,39 +36,47 @@ typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
 
-ll power(ll x,ll y){
-    ll res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
+int solve(int coins[], int n, int sum){
+
+    int dp[n+2][sum+2];
+
+    //initialization
+    for(int i=0; i<=n; i++){
+        dp[i][0]=0;
     }
-    return res;
-}
+    for(int j=0; j<=sum; j++){
+        dp[0][j] = INT_MAX-1;
+    }
 
-ll inverse(ll i){
-    if(i==1) return 1;
-    return (power(i,mod-2))%mod;
-}
-
-
-void prime_sieve(ll n, ll p[]){
-
-    //all even not prime
-   for(ll i=2;i<=n;i+=2){
-      p[i]=1;
-   }
-   
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
+    for(int j=1; j<=sum; j++){
+        if(j%coins[0]==0){
+            dp[1][j]= j/coins[0];
+        }else{
+            dp[1][j] = INT_MAX-1;
         }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
+    }
+
+    //dp case
+    for(int i=2; i<=n; i++){
+        for(int j=1; j<=sum; j++){
+
+            if(coins[i-1]<=j){
+                dp[i][j] = min(1+dp[i][j-coins[i-1]], dp[i-1][j]);
+            }
+            else{
+                dp[i][j] = dp[i-1][j];
+            }
+
+        }
+    }
+
+    if(dp[n][sum]==INT_MAX-1 || dp[n][sum]==INT_MAX) return -1;
+
+    return dp[n][sum];
+
+
 }
+
 
 int main()
 {
@@ -77,6 +85,12 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
+    int n, x;
+    cin>>n>>x;
+
+    int a[n];
+    for(int i=0; i<n; i++) cin>>a[i];
+
+    cout<<solve(a, n, x)<<'\n';
 
 }
-

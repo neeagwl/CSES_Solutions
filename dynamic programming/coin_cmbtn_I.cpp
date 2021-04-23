@@ -36,39 +36,26 @@ typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
 
-ll power(ll x,ll y){
-    ll res=1; 
-    while(y){
-        if(y&1) res = (res*x)%mod; 
-        y>>=1; 
-        x = (x*x)%mod;
-    }
-    return res;
-}
+int solve(int a[], int n, int sum){
 
-ll inverse(ll i){
-    if(i==1) return 1;
-    return (power(i,mod-2))%mod;
-}
+    int dp[sum+1]={0};
+    dp[0]=1;
 
+    //rec acse
+    for(int i=1; i<=sum; i++){
 
-void prime_sieve(ll n, ll p[]){
+        for(int j=0; j<n && i-a[j]>=0; j++){
 
-    //all even not prime
-   for(ll i=2;i<=n;i+=2){
-      p[i]=1;
-   }
-   
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
+            dp[i]+=dp[i-a[j]];
+            dp[i]%= mod;
+
         }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
+    }
+
+    return dp[sum];
+
 }
+
 
 int main()
 {
@@ -77,6 +64,14 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
+    int n, x;
+    cin>>n>>x;
+
+    int a[n];
+    for(int i=0; i<n; i++) cin>>a[i];
+
+    sort(a, a+n);
+
+    cout<<solve(a, n, x)<<'\n';
 
 }
-
