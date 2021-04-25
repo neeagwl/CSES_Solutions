@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define gc getchar_unlocked
-#define fo(i,n) for(i=0;i<n;i++)
+#define fo(k, n) for(int i=k; i<n; i++)
 #define ll long long
 #define si(x)	scanf("%d",&x)
 #define sl(x)	scanf("%lld",&x)
