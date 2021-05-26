@@ -32,9 +32,21 @@ typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 typedef unordered_map<int,int> umii;
 typedef map<int,int> mii;
+typedef map<ll, ll> mll;
 typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
+int primes[10] ={0, 1, 11, 101, 1087, 10007, 100003, 1000003, 10000019, 100000007};
+//---------------------------------------------------------------------------
+
+struct cmp {
+
+    bool operator()(const int& a, const int& b) const {
+        return a > b;
+    }
+
+};
+
 
 ll power(ll x,ll y){
     ll res=1; 
@@ -51,6 +63,36 @@ ll inverse(ll i){
     return (power(i,mod-2))%mod;
 }
 
+string decimalToBinary(int n)
+{
+    //finding the binary form of the number and
+    //coneverting it to string.
+    string s = bitset<64> (n).to_string();
+     
+    //Finding the first occurance of "1"
+    //to strip off the leading zeroes.
+    const auto loc1 = s.find('1');
+     
+    if(loc1 != string::npos)
+        return s.substr(loc1);
+     
+    return "0";
+}
+
+bool isPowerOfTwo(int n)
+{
+   if(n==0)
+   return false;
+ 
+   return (ceil(log2(n)) == floor(log2(n)));
+}
+
+ll highestPowerof2(ll n)
+{
+   ll p = (ll)log2(n);
+   return (ll)pow(2, p);
+}
+ 
 
 void prime_sieve(ll n, ll p[]){
 
@@ -80,3 +122,8 @@ int main()
 
 }
 
+
+
+
+                 
+              
