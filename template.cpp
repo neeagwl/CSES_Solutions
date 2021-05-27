@@ -21,13 +21,14 @@ using namespace std;
 #define INF (int)1e9
 #define EPS 1e-9
 #define mod 1000000007
+#define LLINF LLONG_MAX
 
 typedef pair<int, int>	pii;
-typedef pair<ll, ll>	pl;
+typedef pair<ll, ll>	pll;
 typedef vector<int>		vi;
 typedef vector<ll>		vl;
 typedef vector<pii>		vpii;
-typedef vector<pl>		vpl;
+typedef vector<pll>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 typedef unordered_map<int,int> umii;
