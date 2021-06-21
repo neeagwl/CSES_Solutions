@@ -34,8 +34,6 @@ typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
 ll power(ll base, ll exp); 
-void prime_sieve(ll n, ll p[]);
-bool is_prime(ll i,ll n);
 
 
 int max_no=INT_MAX;
@@ -87,24 +85,3 @@ ll power(ll x,ll y){
     return res;
 }
 
-void prime_sieve(ll n, ll p[]){
-    //all even not prime
-   for(ll i=3;i<=n;i+=2){
-      p[i]=1;
-   }
-   for(ll i=3;(i*i)<=n;i+=2){
-     if(p[i]==1){
-        for(ll j=i*i;j<n;j=j+i){
-            p[j]=0;
-        }
-     }
-   }
-   p[2]=1;
-   p[1]=p[0]=0;
-}
-
-bool is_prime(ll i, ll n){
-    ll p[n+1];
-    prime_sieve(n,p);
-    return p[i];
-}

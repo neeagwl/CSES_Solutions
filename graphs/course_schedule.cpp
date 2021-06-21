@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define gc getchar_unlocked
-#define fo(i,n) for(i=0;i<n;i++)
+#define fo(k, n) for(int i=k; i<n; i++)
 #define ll long long
 #define si(x)	scanf("%d",&x)
 #define sl(x)	scanf("%lld",&x)
@@ -21,53 +21,61 @@ using namespace std;
 #define INF (int)1e9
 #define EPS 1e-9
 #define mod 1000000007
+#define LLINF LLONG_MAX
 
 typedef pair<int, int>	pii;
-typedef pair<ll, ll>	pl;
+typedef pair<int, pii> pipii;
+typedef pair<ll, ll>	pll;
 typedef vector<int>		vi;
 typedef vector<ll>		vl;
 typedef vector<pii>		vpii;
-typedef vector<pl>		vpl;
+typedef vector<pipii>   vpipii;
+typedef vector<pll>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 typedef unordered_map<int,int> umii;
 typedef map<int,int> mii;
+typedef map<ll, ll> mll;
 typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
 
-int dp[501][501];
+list<int>* l;
+vi indeg;
 
-int solve(int a, int b){
-
-    //base case
-    if(a==b) return 0;
-
-    //memo case
-    if(dp[a][b]!=-1) return dp[a][b];
-
-    //rec case
-    int ans = INT_MAX;
-    for(int k=1; k<=a/2; k++){
+void findOrder(int v, vi& in) {
+    
+    vi top_order;
+    
+    queue<int> q;
+    fo(0, v) if(in[i]==0) q.push(i);
+    
+    int cnt=0;
+    while(!q.empty()){
         
-        int tmp_ans = 1 + solve(k, b) + solve(a-k, b);
-
-        ans = min(ans, tmp_ans);
-
-    }
-
-    for(int k=1; k<=b/2; k++){
+        int node = q.front();
+        q.pop();
+        top_order.push_back(node);
         
-        int tmp_ans = 1 + solve(a, k) + solve(a, b-k);
-
-        ans = min(ans, tmp_ans);
-
+        for(auto nbr: l[node]){
+            
+            in[nbr]--;
+            if(in[nbr]==0) q.push(nbr);
+            
+        }
+        cnt++;
+        
     }
-
-    return dp[a][b]=ans;
-
+    
+    if(cnt!=v) {
+        cout<<"IMPOSSIBLE"<<'\n';
+        return ;
+    }
+    
+    for(auto num: top_order) cout<<num<<" ";
+    cout<<'\n';
+    
 }
-
 
 int main()
 {
@@ -76,12 +84,26 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
-    int a,b;
-    cin>>a>>b;
+    ll n, m, u, v, wt, node, ans;
+    cin>>n>>m;
 
-    memset(dp, -1, sizeof(dp));
+    vi indeg(n, 0);
 
-    cout<<solve(a, b)<<'\n';
+    fo(0,m){
 
+        cin>>u>>v>>wt;
+        l[u-1].pb(v-1);
+        indeg[v-1]++;
+
+    }
+
+    findOrder(n, indeg);
+
+    
 }
 
+
+
+
+                 
+              

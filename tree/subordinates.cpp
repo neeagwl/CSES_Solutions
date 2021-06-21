@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define gc getchar_unlocked
-#define fo(i,n) for(i=0;i<n;i++)
+#define fo(k, n) for(int i=k; i<n; i++)
 #define ll long long
 #define si(x)	scanf("%d",&x)
 #define sl(x)	scanf("%lld",&x)
@@ -21,53 +21,40 @@ using namespace std;
 #define INF (int)1e9
 #define EPS 1e-9
 #define mod 1000000007
+#define LLINF LLONG_MAX
 
 typedef pair<int, int>	pii;
-typedef pair<ll, ll>	pl;
+typedef pair<ll, ll>	pll;
 typedef vector<int>		vi;
 typedef vector<ll>		vl;
 typedef vector<pii>		vpii;
-typedef vector<pl>		vpl;
+typedef vector<pll>		vpl;
 typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 typedef unordered_map<int,int> umii;
 typedef map<int,int> mii;
+typedef map<ll, ll> mll;
 typedef unordered_set<int> usi;
 typedef set<int> seti;
 //=======================
 
-int dp[501][501];
+list<int>* l;
 
-int solve(int a, int b){
+int dfs(int src, vi & subord){
 
-    //base case
-    if(a==b) return 0;
+    int cnt =0;
+    for(auto nbr: l[src]){
 
-    //memo case
-    if(dp[a][b]!=-1) return dp[a][b];
+        // if(subord[nbr]!=-1) cnt+=subord[nbr]+1;
 
-    //rec case
-    int ans = INT_MAX;
-    for(int k=1; k<=a/2; k++){
-        
-        int tmp_ans = 1 + solve(k, b) + solve(a-k, b);
-
-        ans = min(ans, tmp_ans);
+        cnt+= dfs(nbr, subord) + 1;
 
     }
 
-    for(int k=1; k<=b/2; k++){
-        
-        int tmp_ans = 1 + solve(a, k) + solve(a, b-k);
-
-        ans = min(ans, tmp_ans);
-
-    }
-
-    return dp[a][b]=ans;
+    subord[src] = cnt;
+    return cnt;
 
 }
-
 
 int main()
 {
@@ -76,12 +63,31 @@ int main()
     cout.tie(0);
     
     //WRITE THE CODE HERE
-    int a,b;
-    cin>>a>>b;
+    int n, u;
+    cin>>n;
 
-    memset(dp, -1, sizeof(dp));
+    l = new list<int>[n];
 
-    cout<<solve(a, b)<<'\n';
+    fo(1, n){
+
+        cin>>u;
+        l[u-1].pb(i);
+
+    }
+
+    vi subord(n, -1);
+    dfs(0, subord);
+
+    for(auto num : subord){
+        cout<<num<<" ";
+    }
+    cout<<'\n';
+
 
 }
 
+
+
+
+                 
+              

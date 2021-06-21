@@ -65,6 +65,7 @@ int main()
     ll dp[n+1];
     dp[0]=0;  
 
+
     fo(1, n+1){
 
         dp[i] = dp[i-1];
